@@ -3,27 +3,332 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Portal de Repaso ✨ Kawaii</title>
+  <title>Mi Portal de Repaso 3.º DS «B» ✨</title>
   
-  <!-- Vinculamos la hoja de estilo CSS -->
-  <link rel="stylesheet" href="css/estilos.css">
+  <!-- Fuente tipográfica bonita -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== ESTILOS KAWAII (CSS) ===== */
+    :root {
+      --bg: #0d0f1d;
+      --panel: #161a33;
+      --pink: #ff79c6;
+      --cyan: #8be9fd;
+      --purple: #bd93f9;
+      --yellow: #f1fa8c;
+      --text: #f8f8f2;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: var(--pink);
+      text-align: center;
+      font-size: 2.2rem;
+      text-shadow: 0 0 10px rgba(255, 121, 198, 0.4);
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--cyan);
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+
+    /* Grilla de tarjetas de módulos */
+    #tusMods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* Tarjeta Kawaii */
+    .card-modulo {
+      background: var(--panel);
+      border: 2px solid var(--purple);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-modulo:hover {
+      transform: translateY(-6px);
+      border-color: var(--pink);
+      box-shadow: 0 12px 24px rgba(255, 121, 198, 0.25);
+    }
+
+    .card-modulo h3 {
+      color: var(--cyan);
+      margin-top: 0;
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+
+    /* Botón Kawaii */
+    .btn-ver {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'Quicksand', sans-serif;
+      box-shadow: 0 4px 10px rgba(255, 121, 198, 0.3);
+      transition: all 0.2s ease;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .btn-ver:hover {
+      filter: brightness(1.15);
+      transform: scale(1.02);
+    }
+
+    /* Ventana Modal */
+    dialog {
+      background: var(--panel);
+      color: var(--text);
+      border: 3px solid var(--pink);
+      border-radius: 24px;
+      max-width: 550px;
+      width: 90%;
+      padding: 25px;
+      box-shadow: 0 0 30px rgba(255, 121, 198, 0.35);
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    dialog::backdrop {
+      background: rgba(13, 15, 29, 0.85);
+      backdrop-filter: blur(5px);
+    }
+
+    .btn-cerrar {
+      background: var(--yellow);
+      color: #1a1a1a;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 15px;
+      cursor: pointer;
+      float: right;
+      font-weight: bold;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .seccion-ficha {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+
+    .seccion-ficha h4 {
+      margin: 0 0 6px 0;
+      color: var(--yellow);
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>✨ Portal de Repaso Día 2 ✨</h1>
-  <p class="subtitle">¡Los datos hacen que el portal se pinte solo con mucho estilo! 🌸</p>
+  <h1>✨ Portal de Repaso - 3.º DS «B» ✨</h1>
+  <p class="subtitle">¡El portal cobra vida con contenido real y verificado del Día 2! 🌸</p>
 
-  <!-- Contenedor donde se pintan las tarjetas -->
+  <!-- Contenedor donde JavaScript pintará las tarjetas dinámicamente -->
   <div id="tusMods"></div>
 
-  <!-- Modal para mostrar la ficha del módulo -->
+  <!-- Modal para desplegar la ficha completa del módulo -->
   <dialog id="modalFicha">
     <button id="btnCerrarModal" class="btn-cerrar">Cerrar ✕</button>
     <div id="modalDetalle"></div>
   </dialog>
 
-  <!-- Carga de archivos de scripts -->
-  <script src="js/modulos.js"></script>
-  <script src="js/main.js"></script>
+  <!-- ===== LÓGICA Y DATOS (JAVASCRIPT) ===== -->
+  <script>
+    // 1. Datos reales de tus módulos de 3.er año
+    const modulosData = [
+      {
+        id: "mod-30",
+        nombre: "Módulo 3.0 Orientación de estudiantes al proceso educativo del tercer año",
+        docente: "Prof. Javier Mineros / Arcides Canales",
+        resumen: "Introducción y alineación a los objetivos educativos, metodología de trabajo y proyectos del 3.er año de bachillerato.",
+        instrumentos: ["Guía de inducción", "Lista de cotejo inicial"],
+        programas: ["Visual Studio Code", "Google Chrome"],
+        herramientas: ["HTML5", "Git", "GitHub"],
+        recursos: [
+          { nombre: "MDN Web Docs (Aprende JS)", url: "https://developer.mozilla.org/es/" },
+          { nombre: "Documentación de GitHub Pages", url: "https://docs.github.com/es/pages" }
+        ],
+        evidencias: ["https://github.com/"]
+      },
+      {
+        id: "mod-32",
+        nombre: "Módulo 3.2 Mantenimiento y aseguramiento de la operación del sistema informático",
+        docente: "Prof. Arcides Canales",
+        resumen: "Diagnóstico, mantenimiento preventivo/correctivo de hardware y software, además de políticas de seguridad.",
+        instrumentos: ["Ficha de diagnóstico de hardware", "Rúbrica de mantenimiento preventivo"],
+        programas: ["VirtualBox", "Cisco Packet Tracer", "VS Code"],
+        herramientas: ["Sistemas Operativos", "Comandos CLI", "Diagnóstico de Redes"],
+        recursos: [
+          { nombre: "Microsoft Learn Support", url: "https://learn.microsoft.com/es-es/" },
+          { nombre: "Cisco Networking Guides", url: "https://www.netacad.com/" }
+        ],
+        evidencias: ["https://github.com/"]
+      },
+      {
+        id: "mod-33",
+        nombre: "Módulo 3.3 Administración de Bases de Datos",
+        docente: "Prof. Arcides Canales",
+        resumen: "Diseño lógico y físico de bases de datos relacionales, consultas complejas y gestión de servidores BD.",
+        instrumentos: ["Guía de consultas SQL", "Laboratorio de diseño relacional"],
+        programas: ["MySQL Workbench", "phpMyAdmin", "VS Code"],
+        herramientas: ["SQL", "DDL/DML", "Relational Model", "JSON"],
+        recursos: [
+          { nombre: "W3Schools SQL Tutorial", url: "https://www.w3schools.com/sql/" },
+          { nombre: "Documentación oficial de MySQL", url: "https://dev.mysql.com/doc/" }
+        ],
+        evidencias: ["https://github.com/"]
+      },
+      {
+        id: "mod-34",
+        nombre: "Módulo 3.4 Elaboración de documentación de Sistemas informáticos",
+        docente: "Prof. Javier Mineros",
+        resumen: "Creación de manuales técnicos, manuales de usuario, diagramación UML y estándares de documentación de software.",
+        instrumentos: ["Plantilla de manual de usuario", "Rúbrica de arquitectura de software"],
+        programas: ["Draw.io", "Visual Studio Code", "Markdown / Word"],
+        herramientas: ["UML", "Markdown", "Diagramas de Casos de Uso"],
+        recursos: [
+          { nombre: "MDN Markdown Cheat Sheet", url: "https://developer.mozilla.org/es/docs/MDN/Writing_guidelines/Howto/Markdown_cheat_sheet" },
+          { nombre: "UML Diagrams Guide", url: "https://www.uml-diagrams.org/" }
+        ],
+        evidencias: ["https://github.com/"]
+      },
+      {
+        id: "mod-38",
+        nombre: "Módulo 3.8 Proyecto innovador de Desarrollo de Software",
+        docente: "Prof. Javier Mineros",
+        resumen: "Desarrollo integral de un sistema informático aplicando metodología ágil, arquitectura cliente-servidor e innovación.",
+        instrumentos: ["Bitácora de proyecto", "Rúbrica de evaluación de software completo"],
+        programas: ["VS Code", "Git / GitHub", "Google Chrome"],
+        herramientas: ["HTML5", "CSS3", "JavaScript ES6", "GitHub Pages"],
+        recursos: [
+          { nombre: "MDN Web Docs", url: "https://developer.mozilla.org/es/" },
+          { nombre: "GitHub Docs", url: "https://docs.github.com/es" }
+        ],
+        evidencias: ["https://github.com/"]
+      }
+    ];
+
+    // 2. Funciones para pintar módulos y abrir la ventana emergente
+    document.addEventListener("DOMContentLoaded", () => {
+      const contenedor = document.getElementById("tusMods");
+      const modal = document.getElementById("modalFicha");
+      const modalDetalle = document.getElementById("modalDetalle");
+      const btnCerrar = document.getElementById("btnCerrarModal");
+
+      // Función que genera las tarjetas en la pantalla
+      function cargarModulos() {
+        if (!contenedor) return;
+        contenedor.innerHTML = "";
+
+        modulosData.forEach(mod => {
+          const card = document.createElement("div");
+          card.className = "card-modulo";
+          card.innerHTML = `
+            <div>
+              <h3>🎀 ${mod.nombre}</h3>
+              <p><strong>Docente:</strong> ${mod.docente} 💫</p>
+              <p>${mod.resumen}</p>
+            </div>
+            <button class="btn-ver" data-id="${mod.id}">Ver Ficha ✨</button>
+          `;
+          contenedor.appendChild(card);
+        });
+
+        // Evento de clic para abrir el modal
+        document.querySelectorAll(".btn-ver").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            const id = e.target.getAttribute("data-id");
+            mostrarFicha(id);
+          });
+        });
+      }
+
+      // Función que llena la información de la ficha dentro del modal
+      function mostrarFicha(id) {
+        const mod = modulosData.find(m => m.id === id);
+        if (!mod) return;
+
+        modalDetalle.innerHTML = `
+          <h2>🌸 ${mod.nombre}</h2>
+          <p><em>Docente: ${mod.docente} ⭐</em></p>
+          <p>${mod.resumen}</p>
+
+          <div class="seccion-ficha">
+            <h4>📋 Instrumentos (mín. 2)</h4>
+            <ul>${mod.instrumentos.map(i => `<li>🔹 ${i}</li>`).join("")}</ul>
+          </div>
+
+          <div class="seccion-ficha">
+            <h4>💻 Programas (mín. 2)</h4>
+            <ul>${mod.programas.map(p => `<li>💖 ${p}</li>`).join("")}</ul>
+          </div>
+
+          <div class="seccion-ficha">
+            <h4>🛠️ Herramientas (mín. 2)</h4>
+            <ul>${mod.herramientas.map(h => `<li>⚡ ${h}</li>`).join("")}</ul>
+          </div>
+
+          <div class="seccion-ficha">
+            <h4>🔗 Recursos (mín. 3)</h4>
+            <ul>${mod.recursos.map(r => `<li>🎀 <a href="${r.url}" target="_blank" rel="noopener">${r.nombre}</a></li>`).join("")}</ul>
+          </div>
+        `;
+
+        modal.showModal();
+      }
+
+      // Evento para cerrar la ventana modal
+      if (btnCerrar) {
+        btnCerrar.addEventListener("click", () => modal.close());
+      }
+
+      // Inicializar la carga de módulos
+      cargarModulos();
+    });
+  </script>
 </body>
 </html>
