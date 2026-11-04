@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Portal de Repaso 3.º DS «B» ✨</title>
+  <title>Mi Portal de Repaso 3.º DS «B» ✨ - Día 2</title>
   
   <!-- Fuente tipográfica Quicksand -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== ESTILOS KAWAII (CSS) ===== */
+    /* ===== ESTILOS KAWAII Y MODERNO (CSS) ===== */
     :root {
       --bg: #0d0f1d;
       --panel: #161a33;
@@ -33,22 +33,58 @@
       margin: 0 auto;
     }
 
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
     h1 {
       color: var(--pink);
-      text-align: center;
       font-size: 2.2rem;
       text-shadow: 0 0 10px rgba(255, 121, 198, 0.4);
       margin-bottom: 5px;
     }
 
     .subtitle {
-      text-align: center;
       color: var(--cyan);
-      margin-bottom: 30px;
       font-size: 1.1rem;
+      margin-top: 0;
     }
 
-    /* Grilla de módulos */
+    /* BARRA DE PROGRESO DEL REPASO */
+    .progreso-box {
+      background: var(--panel);
+      border: 2px solid var(--purple);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .progreso-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .barra-pista {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .barra-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    /* GRILLA DE MÓDULOS */
     #tusMods {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -56,7 +92,6 @@
       margin-bottom: 40px;
     }
 
-    /* Tarjeta Kawaii */
     .card-modulo {
       background: var(--panel);
       border: 2px solid var(--purple);
@@ -67,6 +102,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
     }
 
     .card-modulo:hover {
@@ -75,14 +111,35 @@
       box-shadow: 0 12px 24px rgba(255, 121, 198, 0.25);
     }
 
-    .card-modulo h3 {
-      color: var(--cyan);
-      margin-top: 0;
-      font-size: 1.25rem;
-      line-height: 1.3;
+    .card-modulo.leido {
+      border-color: var(--green);
     }
 
-    /* Botón Kawaii General */
+    .badge-estado {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--yellow);
+    }
+
+    .badge-estado.completado {
+      background: rgba(80, 250, 123, 0.2);
+      color: var(--green);
+    }
+
+    .card-modulo h3 {
+      color: var(--cyan);
+      margin-top: 10px;
+      font-size: 1.2rem;
+      line-height: 1.3;
+      padding-right: 40px;
+    }
+
+    /* BOTONES */
     .btn-ver, .btn-quiz {
       background: linear-gradient(135deg, var(--pink), var(--purple));
       color: #fff;
@@ -103,7 +160,7 @@
       transform: scale(1.02);
     }
 
-    /* Ventana Modal de Ficha */
+    /* VENTANA MODAL DE LA FICHA */
     dialog {
       background: var(--panel);
       color: var(--text);
@@ -164,7 +221,7 @@
       text-decoration: underline;
     }
 
-    /* ===== SECCIÓN DEL QUIZ INTERACTIVO ===== */
+    /* SECCIÓN DEL QUIZ INTERACTIVO */
     .quiz-container {
       background: var(--panel);
       border: 2px dashed var(--pink);
@@ -205,7 +262,6 @@
       border-color: var(--cyan);
     }
 
-    /* Feedback visual de respuestas */
     .btn-opcion.correcta {
       background: rgba(80, 250, 123, 0.25) !important;
       border-color: var(--green) !important;
@@ -240,13 +296,26 @@
 </head>
 <body>
 
-  <h1>✨ Portal de Repaso - 3.º DS «B» ✨</h1>
-  <p class="subtitle">¡El portal cobra vida con contenido real y módulo de Quiz interactivo! 🌸</p>
+  <header>
+    <h1>✨ Portal de Repaso - 3.º DS «B» ✨</h1>
+    <p class="subtitle">Día 2: El portal cobra vida 🌸</p>
+  </header>
 
-  <!-- 1. Tarjetas de módulos -->
+  <!-- 1. BARRA DE PROGRESO GUARDADA (Nivel Pro) -->
+  <section class="progreso-box">
+    <div class="progreso-header">
+      <span>📊 Progreso de repaso guardado:</span>
+      <span id="progresoTexto">0 de 5 módulos revisados</span>
+    </div>
+    <div class="barra-pista">
+      <div id="barraFill" class="barra-fill"></div>
+    </div>
+  </section>
+
+  <!-- 2. CONTENEDOR DE MÓDULOS (Generación dinámica - Período 1) -->
   <div id="tusMods"></div>
 
-  <!-- 2. Sección del Quiz Interactivo -->
+  <!-- 3. SECCIÓN DE QUIZ INTERACTIVO (Período 3 / Nivel Pro) -->
   <section class="quiz-container">
     <h2>🎮 Quiz de Repaso Interactivo 🧠</h2>
     <div id="quizBox">
@@ -257,7 +326,7 @@
     </div>
   </section>
 
-  <!-- 3. Modal para Ficha Completa -->
+  <!-- 4. MODAL DE LA FICHA DEL MÓDULO (Anatomía del Módulo - Período 2) -->
   <dialog id="modalFicha">
     <button id="btnCerrarModal" class="btn-cerrar">Cerrar ✕</button>
     <div id="modalDetalle"></div>
@@ -265,76 +334,81 @@
 
   <!-- ===== LÓGICA Y DATOS (JAVASCRIPT) ===== -->
   <script>
-    // Módulos reales del 3.er año
+    // DATOS DE MÓDULOS (Período 1 & Sprint de Contenido Día 2)
     const modulosData = [
       {
         id: "mod-30",
         nombre: "Módulo 3.0 Orientación de estudiantes al proceso educativo del tercer año",
         docente: "Prof. Javier Mineros / Arcides Canales",
-        resumen: "Introducción y alineación a los objetivos educativos, metodología de trabajo y proyectos del 3.er año de bachillerato.",
+        resumen: "Introducción a la metodología del tercer año, establecimiento de equipos y criterios del proyecto integrador.",
         instrumentos: ["Guía de inducción", "Lista de cotejo inicial"],
         programas: ["Visual Studio Code", "Google Chrome"],
         herramientas: ["HTML5", "Git", "GitHub"],
         recursos: [
-          { nombre: "MDN Web Docs", url: "https://developer.mozilla.org/es/" },
-          { nombre: "Docs GitHub Pages", url: "https://docs.github.com/es/pages" }
+          { nombre: "MDN Web Docs (Aprende JS)", url: "https://developer.mozilla.org/es/" },
+          { nombre: "Guía de GitHub Pages", url: "https://docs.github.com/es/pages" },
+          { nombre: "Manual de convivencia INDEL", url: "https://developer.mozilla.org/es/" }
         ]
       },
       {
         id: "mod-32",
         nombre: "Módulo 3.2 Mantenimiento y aseguramiento de la operación del sistema informático",
         docente: "Prof. Arcides Canales",
-        resumen: "Diagnóstico, mantenimiento preventivo/correctivo de hardware y software, además de políticas de seguridad.",
+        resumen: "Mantenimiento preventivo y correctivo de equipos, instalación de software y seguridad física y lógica.",
         instrumentos: ["Ficha de diagnóstico de hardware", "Rúbrica de mantenimiento preventivo"],
         programas: ["VirtualBox", "Cisco Packet Tracer", "VS Code"],
         herramientas: ["Sistemas Operativos", "Comandos CLI", "Diagnóstico de Redes"],
         recursos: [
           { nombre: "Microsoft Learn Support", url: "https://learn.microsoft.com/es-es/" },
-          { nombre: "Cisco Networking Guides", url: "https://www.netacad.com/" }
+          { nombre: "Cisco Networking Guides", url: "https://www.netacad.com/" },
+          { nombre: "Soporte de Hardware Tom's", url: "https://www.tomshardware.com/" }
         ]
       },
       {
         id: "mod-33",
         nombre: "Módulo 3.3 Administración de Bases de Datos",
         docente: "Prof. Arcides Canales",
-        resumen: "Diseño lógico y físico de bases de datos relacionales, consultas complejas y gestión de servidores BD.",
+        resumen: "Diseño, modelado entidad-relación y consultas SQL estructuradas para gestionar la información de sistemas.",
         instrumentos: ["Guía de consultas SQL", "Laboratorio de diseño relacional"],
         programas: ["MySQL Workbench", "phpMyAdmin", "VS Code"],
         herramientas: ["SQL", "DDL/DML", "Relational Model", "JSON"],
         recursos: [
-          { nombre: "W3Schools SQL", url: "https://www.w3schools.com/sql/" },
-          { nombre: "MySQL Documentation", url: "https://dev.mysql.com/doc/" }
+          { nombre: "W3Schools SQL Tutorial", url: "https://www.w3schools.com/sql/" },
+          { nombre: "Documentación de MySQL", url: "https://dev.mysql.com/doc/" },
+          { nombre: "SQLZoo Interactivo", url: "https://sqlzoo.net/" }
         ]
       },
       {
         id: "mod-34",
         nombre: "Módulo 3.4 Elaboración de documentación de Sistemas informáticos",
         docente: "Prof. Javier Mineros",
-        resumen: "Creación de manuales técnicos, manuales de usuario, diagramación UML y estándares de documentación de software.",
+        resumen: "Generación de manuales técnicos, manuales de usuario y diagramas UML para respaldar proyectos de software.",
         instrumentos: ["Plantilla de manual de usuario", "Rúbrica de arquitectura de software"],
         programas: ["Draw.io", "Visual Studio Code", "Markdown / Word"],
         herramientas: ["UML", "Markdown", "Diagramas de Casos de Uso"],
         recursos: [
           { nombre: "MDN Markdown Cheat Sheet", url: "https://developer.mozilla.org/es/docs/MDN/Writing_guidelines/Howto/Markdown_cheat_sheet" },
-          { nombre: "UML Diagrams Guide", url: "https://www.uml-diagrams.org/" }
+          { nombre: "UML Diagrams Guide", url: "https://www.uml-diagrams.org/" },
+          { nombre: "Draw.io Web App", url: "https://app.diagrams.net/" }
         ]
       },
       {
         id: "mod-38",
         nombre: "Módulo 3.8 Proyecto innovador de Desarrollo de Software",
         docente: "Prof. Javier Mineros",
-        resumen: "Desarrollo integral de un sistema informático aplicando metodología ágil, arquitectura cliente-servidor e innovación.",
-        instrumentos: ["Bitácora de proyecto", "Rúbrica de evaluación de software completo"],
+        resumen: "Construcción del sistema informático integrador aplicando tecnologías web, Git y hosting en la nube.",
+        instrumentos: ["Bitácora de proyecto", "Rúbrica de evaluación de software"],
         programas: ["VS Code", "Git / GitHub", "Google Chrome"],
         herramientas: ["HTML5", "CSS3", "JavaScript ES6", "GitHub Pages"],
         recursos: [
           { nombre: "MDN Web Docs", url: "https://developer.mozilla.org/es/" },
-          { nombre: "GitHub Docs", url: "https://docs.github.com/es" }
+          { nombre: "GitHub Docs", url: "https://docs.github.com/es" },
+          { nombre: "JavaScript Info", url: "https://es.javascript.info/" }
         ]
       }
     ];
 
-    // Banco de Preguntas del Quiz
+    // BANCO DE PREGUNTAS DEL QUIZ
     const preguntasQuiz = [
       {
         pregunta: "1. ¿Qué módulo abarca la creación de manuales de usuario y diagramación UML?",
@@ -343,54 +417,99 @@
         explicacion: "¡Correcto! El Módulo 3.4 aborda la Elaboración de Documentación de Sistemas e incluye diagramas UML."
       },
       {
-        pregunta: "2. ¿Qué herramienta o lenguaje se utiliza para la administración de bases de datos relacionales?",
+        pregunta: "2. ¿Qué lenguaje de consultas se utiliza para la administración de bases de datos relacionales?",
         opciones: ["CSS3", "HTML5", "SQL", "Markdown"],
         correcta: 2,
         explicacion: "¡Excelente! SQL es el lenguaje estándar utilizado para gestionar y consultar bases de datos relacionales."
       },
       {
-        pregunta: "3. ¿Cuál es el comando/archivo principal exigido por GitHub Pages para publicar la web sin error 404?",
+        pregunta: "3. ¿Cuál es el nombre exigido para el archivo HTML principal en GitHub Pages?",
         opciones: ["inicio.html", "index.html", "main.js", "modulos.js"],
         correcta: 1,
         explicacion: "¡Así es! GitHub Pages busca estrictamente el archivo denominado index.html en minúsculas."
       }
     ];
 
-    let preguntaActual = 0;
-    let puntaje = 0;
+    // MANEJO DE PROGRESO GUARDADO EN NAVEGADOR (localStorage)
+    function obtenerModulosLeidos() {
+      try {
+        return JSON.parse(localStorage.getItem("repaso_leidos")) || [];
+      } catch (e) {
+        return [];
+      }
+    }
 
+    function guardarModuloLeido(id) {
+      let leidos = obtenerModulosLeidos();
+      if (!leidos.includes(id)) {
+        leidos.push(id);
+        localStorage.setItem("repaso_leidos", JSON.stringify(leidos));
+      }
+      actualizarProgresoUI();
+    }
+
+    function actualizarProgresoUI() {
+      const leidos = obtenerModulosLeidos();
+      const total = modulosData.length;
+      const pct = Math.round((leidos.length / total) * 100);
+
+      document.getElementById("progresoTexto").textContent = `${leidos.length} de ${total} módulos revisados (${pct}%)`;
+      document.getElementById("barraFill").style.width = `${pct}%`;
+
+      modulosData.forEach(mod => {
+        const card = document.getElementById(`card-${mod.id}`);
+        const badge = document.getElementById(`badge-${mod.id}`);
+        if (card && badge) {
+          if (leidos.includes(mod.id)) {
+            card.classList.add("leido");
+            badge.textContent = "✓ Repasado";
+            badge.classList.add("completado");
+          } else {
+            card.classList.remove("leido");
+            badge.textContent = "○ Pendiente";
+            badge.classList.remove("completado");
+          }
+        }
+      });
+    }
+
+    // CARGAR MÓDULOS EN PANTALLA
     document.addEventListener("DOMContentLoaded", () => {
       const contenedor = document.getElementById("tusMods");
       const modal = document.getElementById("modalFicha");
       const modalDetalle = document.getElementById("modalDetalle");
       const btnCerrar = document.getElementById("btnCerrarModal");
 
-      // Cargar Tarjetas
       function cargarModulos() {
         if (!contenedor) return;
         contenedor.innerHTML = "";
         modulosData.forEach(mod => {
           const card = document.createElement("div");
           card.className = "card-modulo";
+          card.id = `card-${mod.id}`;
           card.innerHTML = `
+            <span id="badge-${mod.id}" class="badge-estado">○ Pendiente</span>
             <div>
               <h3>🎀 ${mod.nombre}</h3>
               <p><strong>Docente:</strong> ${mod.docente} 💫</p>
               <p>${mod.resumen}</p>
             </div>
-            <button class="btn-ver" data-id="${mod.id}">Ver Ficha ✨</button>
+            <button class="btn-ver" data-id="${mod.id}">Ver Ficha Completa ✨</button>
           `;
           contenedor.appendChild(card);
         });
 
         document.querySelectorAll(".btn-ver").forEach(btn => {
           btn.addEventListener("click", (e) => {
-            mostrarFicha(e.target.getAttribute("data-id"));
+            const id = e.target.getAttribute("data-id");
+            mostrarFicha(id);
+            guardarModuloLeido(id); // Guarda progreso al abrir ficha
           });
         });
+
+        actualizarProgresoUI();
       }
 
-      // Mostrar Ficha Modal
       function mostrarFicha(id) {
         const mod = modulosData.find(m => m.id === id);
         if (!mod) return;
@@ -399,17 +518,36 @@
           <h2>🌸 ${mod.nombre}</h2>
           <p><em>Docente: ${mod.docente} ⭐</em></p>
           <p>${mod.resumen}</p>
-          <div class="seccion-ficha"><h4>📋 Instrumentos</h4><ul>${mod.instrumentos.map(i => `<li>🔹 ${i}</li>`).join("")}</ul></div>
-          <div class="seccion-ficha"><h4>💻 Programas</h4><ul>${mod.programas.map(p => `<li>💖 ${p}</li>`).join("")}</ul></div>
-          <div class="seccion-ficha"><h4>🛠️ Herramientas</h4><ul>${mod.herramientas.map(h => `<li>⚡ ${h}</li>`).join("")}</ul></div>
-          <div class="seccion-ficha"><h4>🔗 Recursos</h4><ul>${mod.recursos.map(r => `<li>🎀 <a href="${r.url}" target="_blank" rel="noopener">${r.nombre}</a></li>`).join("")}</ul></div>
+
+          <div class="seccion-ficha">
+            <h4>📋 Instrumentos (mín. 2)</h4>
+            <ul>${mod.instrumentos.map(i => `<li>🔹 ${i}</li>`).join("")}</ul>
+          </div>
+
+          <div class="seccion-ficha">
+            <h4>💻 Programas (mín. 2)</h4>
+            <ul>${mod.programas.map(p => `<li>💖 ${p}</li>`).join("")}</ul>
+          </div>
+
+          <div class="seccion-ficha">
+            <h4>🛠️ Herramientas (mín. 2)</h4>
+            <ul>${mod.herramientas.map(h => `<li>⚡ ${h}</li>`).join("")}</ul>
+          </div>
+
+          <div class="seccion-ficha">
+            <h4>🔗 Recursos (mín. 3)</h4>
+            <ul>${mod.recursos.map(r => `<li>🎀 <a href="${r.url}" target="_blank" rel="noopener">${r.nombre}</a></li>`).join("")}</ul>
+          </div>
         `;
+
         modal.showModal();
       }
 
       if (btnCerrar) btnCerrar.addEventListener("click", () => modal.close());
 
-      // LÓGICA DEL QUIZ
+      // LÓGICA DEL QUIZ INTERACTIVO
+      let preguntaActual = 0;
+      let puntaje = 0;
       const preguntaTxt = document.getElementById("preguntaTxt");
       const opcionesBox = document.getElementById("opcionesBox");
       const feedbackBox = document.getElementById("feedbackBox");
@@ -468,7 +606,7 @@
         mostrarPregunta();
       });
 
-      // Inicializar todo
+      // Inicialización
       cargarModulos();
       mostrarPregunta();
     });
