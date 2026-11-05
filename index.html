@@ -138,7 +138,7 @@
     #contadorModulos { width: 100%; font-size: 14px; color: var(--texto-mutado); font-weight: 600; font-family: var(--fd); margin-top: -2px; }
 
     /* Tarjetas de Módulos */
-    .grid-modulos { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .grid-modulos { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
     .tarjeta-modulo { 
       background: var(--panel-bg); 
       border: 2px solid var(--borde-color); 
@@ -150,9 +150,48 @@
       transition: transform 0.2s, border-color 0.2s;
     }
     .tarjeta-modulo:hover { transform: translateY(-4px); border-color: var(--celeste-pastel); }
-    .tarjeta-modulo h3 { font-family: var(--fd); font-size: 17px; margin-bottom: 10px; line-height: 1.3; color: var(--texto-principal); }
-    .tarjeta-modulo p { color: var(--texto-mutado); font-size: 14.5px; flex: 1; margin-bottom: 16px; }
+    .tarjeta-modulo h3 { font-family: var(--fd); font-size: 17px; margin-bottom: 8px; line-height: 1.3; color: var(--texto-principal); }
+    .tarjeta-modulo p.resumen-txt { color: var(--texto-mutado); font-size: 14.5px; margin-bottom: 14px; }
 
+    /* Componentes de la Ficha dentro del Módulo */
+    details.ficha-detalles {
+      background: var(--panel-bg2);
+      border: 2px dashed var(--borde-color);
+      border-radius: 16px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    details.ficha-detalles summary {
+      cursor: pointer;
+      font-family: var(--fd);
+      font-size: 14px;
+      color: var(--amarillo-pastel);
+      outline: none;
+      user-select: none;
+    }
+    .ficha-contenido {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13.5px;
+    }
+    .ficha-item {
+      background: var(--panel-bg);
+      border: 1px solid var(--borde-color);
+      padding: 8px 12px;
+      border-radius: 10px;
+    }
+    .ficha-item b {
+      color: var(--celeste-pastel);
+      display: block;
+      margin-bottom: 2px;
+      font-size: 12.5px;
+    }
+    .ficha-item a { color: var(--amarillo-pastel); text-decoration: none; word-break: break-all; }
+    .ficha-item a:hover { text-decoration: underline; }
+
+    /* Botones y UI */
     .btn-accion { 
       padding: 10px 16px; 
       background: var(--celeste-pastel); 
@@ -227,7 +266,7 @@
       <p id="contadorModulos">Cargando módulos...</p>
     </section>
 
-    <!-- Listado de Módulos -->
+    <!-- Listado de Módulos con Fichas -->
     <section id="contenedorModulos" class="grid-modulos"></section>
 
     <!-- Área interactiva para Quiz -->
@@ -235,13 +274,23 @@
   </main>
 
   <script>
-    // 1. DATOS REALES EXTRAÍDOS DE LOS MÓDULOS
+    // 1. DATOS REALES DE MÓDULOS + FICHAS COMPLETAS
     const modulosData = [
       {
         id: "m3_0",
         nombre: "Módulo 3.0 Orientación de estudiantes al proceso educativo del tercer año",
         docente: "Javier Mineros",
-        resumen: "Introducción y lineamientos del año lectivo, metodología de trabajo y proyectos.",
+        resumen: "Introducción y lineamientos del año lectivo, metodología de trabajo y proyectos integradores.",
+        ficha: {
+          instrumentos: ["Guía de inducción", "Lista de cotejo del perfil de egreso"],
+          programas: ["Browser (Chrome / Edge)", "VS Code"],
+          herramientas: ["Markdown", "Git / GitHub"],
+          recursos: [
+            { txt: "Docs de GitHub Pages", url: "https://docs.github.com/es/pages" },
+            { txt: "Guía de Markdown", url: "https://www.markdownguide.org/" }
+          ],
+          evidencias: "Estructura del repositorio base publicado en GitHub."
+        },
         preguntas: [
           {
             q: "¿Cuál es el objetivo principal del Módulo 3.0?",
@@ -256,6 +305,15 @@
         nombre: "Módulo 3.2 Mantenimiento y aseguramiento de la operación del sistema informático",
         docente: "Javier Mineros",
         resumen: "Mantenimiento preventivo, correctivo y seguridad de infraestructura tecnológica.",
+        ficha: {
+          instrumentos: ["Rúbrica de diagnóstico de hardware", "Guía de mantenimiento de PC"],
+          programas: ["VirtualBox", "Rufus", "AIDA64"],
+          herramientas: ["Sistemas Operativos (Windows / Linux)", "CMD / PowerShell"],
+          recursos: [
+            { txt: "Documentación de Microsoft System", url: "https://learn.microsoft.com/es-es/" }
+          ],
+          evidencias: "Informe técnico de mantenimiento preventivo realizado."
+        },
         preguntas: [
           {
             q: "¿Qué abarca el aseguramiento de la operación del sistema?",
@@ -270,6 +328,15 @@
         nombre: "Módulo 3.3 Administración de Bases de Datos",
         docente: "Javier Mineros",
         resumen: "Gestión, optimización, consultas avanzadas y seguridad en SGBD.",
+        ficha: {
+          instrumentos: ["Guía de ejercicios SQL", "Examen práctico de DDL/DML"],
+          programas: ["MySQL Workbench", "XAMPP / phpMyAdmin", "SQL Server Management Studio"],
+          herramientas: ["SQL", "Relational Database Engines"],
+          recursos: [
+            { txt: "Documentación de MySQL", url: "https://dev.mysql.com/doc/" }
+          ],
+          evidencias: "Base de datos relacional modelada e implementada en código SQL."
+        },
         preguntas: [
           {
             q: "¿Qué lenguaje se utiliza principalmente para administrar bases de datos relacionales?",
@@ -284,6 +351,15 @@
         nombre: "Módulo 3.4 Elaboración de documentación de Sistemas informáticos",
         docente: "Javier Mineros",
         resumen: "Manuales de usuario, técnicos, diagramas de arquitectura y especificación de requerimientos.",
+        ficha: {
+          instrumentos: ["Plantilla IEEE 830 de Requerimientos", "Lista de revisión técnica"],
+          programas: ["Draw.io", "StarUML", "Microsoft Word"],
+          herramientas: ["Diagramas UML", "Casos de Uso"],
+          recursos: [
+            { txt: "Diagramas UML en MDN", url: "https://developer.mozilla.org/es/" }
+          ],
+          evidencias: "Manual técnico y de usuario completo del proyecto del año."
+        },
         preguntas: [
           {
             q: "¿Por qué es crucial la documentación en un sistema informático?",
@@ -298,6 +374,15 @@
         nombre: "Módulo 3.8 Proyecto innovador de Desarrollo de Software",
         docente: "Javier Mineros",
         resumen: "Formulación, desarrollo e implementación de un proyecto integrador con impacto real.",
+        ficha: {
+          instrumentos: ["Rúbrica de evaluación de proyectos", "Ficha de avance semanal"],
+          programas: ["VS Code", "GitHub / Git", "Figma"],
+          herramientas: ["HTML5", "CSS3", "JavaScript ES6"],
+          recursos: [
+            { txt: "MDN Web Docs", url: "https://developer.mozilla.org/es/" }
+          ],
+          evidencias: "URL de la aplicación web funcional desplegada."
+        },
         preguntas: [
           {
             q: "¿Qué caracteriza al proyecto del Módulo 3.8?",
@@ -312,6 +397,15 @@
         nombre: "BTVDS 3.1 Desarrollo de aplicaciones de software para la solución de problemas",
         docente: "Arcides Canales",
         resumen: "Lógica de programación, desarrollo backend/frontend y resolución algorítmica.",
+        ficha: {
+          instrumentos: ["Guía de resolución de algoritmos", "Lista de cotejo de código limpio"],
+          programas: ["Visual Studio", "NetBeans", "VS Code"],
+          herramientas: ["C#", "Java", "Python"],
+          recursos: [
+            { txt: "Microsoft Learn C#", url: "https://learn.microsoft.com/es-es/dotnet/csharp/" }
+          ],
+          evidencias: "Código fuente de aplicación orientada a objetos para resolución de problemas."
+        },
         preguntas: [
           {
             q: "¿Cuál es el enfoque principal del desarrollo de aplicaciones en BTVDS 3.1?",
@@ -326,6 +420,15 @@
         nombre: "Modulo 2 Desarrollo de componentes para dispositivos móviles",
         docente: "Arcides Canales",
         resumen: "Construcción de interfaces y funcionalidades adaptadas a entornos móviles.",
+        ficha: {
+          instrumentos: ["Guía de diseño UI/UX Móvil", "Rúbrica de prototipado"],
+          programas: ["Android Studio", "Flutter SDK", "Emulador Android"],
+          herramientas: ["Dart / Java", "Layouts Adaptativos"],
+          recursos: [
+            { txt: "Documentación oficial de Flutter/Android", url: "https://developer.android.com/" }
+          ],
+          evidencias: "Prototipo e implementación de app móvil funcional."
+        },
         preguntas: [
           {
             q: "¿Qué aspecto es fundamental al desarrollar para dispositivos móviles?",
@@ -340,6 +443,15 @@
         nombre: "Modulo 3 Conversación de ingles sobre mantenimiento de sistemas informáticos",
         docente: "Arcides Canales",
         resumen: "Vocabulario técnico y comunicación verbal en inglés para soporte y tecnología.",
+        ficha: {
+          instrumentos: ["Rúbrica de presentación oral (Speaking)", "Glosario técnico de términos IT"],
+          programas: ["Duolingo", "Translators / Audio Recorders"],
+          herramientas: ["English Technical Vocabulary"],
+          recursos: [
+            { txt: "BBC Learning English", url: "https://www.bbc.co.uk/learningenglish" }
+          ],
+          evidencias: "Audio/Video demostrativo de conversación técnica en inglés."
+        },
         preguntas: [
           {
             q: "¿Cuál es el propósito del vocabulario técnico en inglés?",
@@ -354,6 +466,15 @@
         nombre: "Modulo 4 Puesta en marcha de la empresa en asociatividad cooperativa",
         docente: "Arcides Canales",
         resumen: "Modelo de negocios, cooperativismo, emprendimiento y formalización de proyectos.",
+        ficha: {
+          instrumentos: ["Modelo Canvas de Negocio", "Matriz FODA corporativa"],
+          programas: ["Microsoft Excel / Google Sheets", "Canva"],
+          herramientas: ["Planes de Negocio", "Finanzas de Empresa"],
+          recursos: [
+            { txt: "Guías de Emprendimiento e Innovación", url: "https://www.odoo.com/documentation" }
+          ],
+          evidencias: "Plan de negocio y constitución cooperativa de la empresa."
+        },
         preguntas: [
           {
             q: "¿Qué promueve la asociatividad cooperativa?",
@@ -412,12 +533,39 @@
           const estaRepasado = progresoGuardado[mod.id] || false;
           const tarjeta = document.createElement('article');
           tarjeta.className = 'tarjeta-modulo';
+          
+          // Generar HTML de los recursos en la ficha
+          const recursosHTML = mod.ficha.recursos.map(r => `<a href="${r.url}" target="_blank" rel="noopener">${r.txt}</a>`).join(', ');
+
           tarjeta.innerHTML = `
             <div>
               <span class="badge">🌸 ${mod.docente}</span>
               <h3 style="margin-top:10px;">${mod.nombre}</h3>
-              <p>${mod.resumen}</p>
+              <p class="resumen-txt">${mod.resumen}</p>
+
+              <!-- FICHA COMPLETA DEL MÓDULO -->
+              <details class="ficha-detalles">
+                <summary>📋 Ver Ficha Técnica Completa</summary>
+                <div class="ficha-contenido">
+                  <div class="ficha-item">
+                    <b>📄 Instrumentos:</b> ${mod.ficha.instrumentos.join(', ')}
+                  </div>
+                  <div class="ficha-item">
+                    <b>💻 Programas:</b> ${mod.ficha.programas.join(', ')}
+                  </div>
+                  <div class="ficha-item">
+                    <b>🛠️ Herramientas:</b> ${mod.ficha.herramientas.join(', ')}
+                  </div>
+                  <div class="ficha-item">
+                    <b>🔗 Recursos:</b> ${recursosHTML}
+                  </div>
+                  <div class="ficha-item">
+                    <b>📁 Evidencias:</b> ${mod.ficha.evidencias}
+                  </div>
+                </div>
+              </details>
             </div>
+
             <div>
               <label style="cursor:pointer; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; margin-bottom:14px;">
                 <input type="checkbox" style="accent-color: var(--celeste-pastel); width:18px; height:18px;" onchange="marcarRepasado('${mod.id}', this.checked)" ${estaRepasado ? 'checked' : ''}>
